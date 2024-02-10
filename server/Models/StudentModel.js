@@ -17,12 +17,15 @@ const studentSchema = new mongoose.Schema({
   stdPhoneNumber: {
     type: String,
     required: true,
-    unique :true,
   },
   regNo: {
     type: String,
     required: true,
     unique: true
+  },
+  stdDept:{
+    type:String,
+    required:true
   },
   certificates: {
     type: [String], 

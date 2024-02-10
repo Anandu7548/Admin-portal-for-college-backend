@@ -19,15 +19,3 @@ exports.stdLogin = async (req, res) => {
 };
 
 
-  // Get all Students
-  exports.getStudents = async(req,res)=>{
-    try{
-      const response = await StudentModel.find()
-      console.log(response);
-      res.status(200).json(response)
-      console.log("Stidents details are fetched successfully");
-    }
-    catch(err){
-      res.status(404).json(err)
-    }
-  }
