@@ -24,7 +24,8 @@ router.get("/getTeachers",AdminContoller.getTeachers);
 router.get("/getStudents",AdminContoller.getStudents);
 // get a particular admin details
 router.get("/getAdmin/:id",AdminContoller.getAdmin);
-
+// update the specific admin
+router.put("/updateAdmin/:id", AdminContoller.updateAdmin);
 
 
 

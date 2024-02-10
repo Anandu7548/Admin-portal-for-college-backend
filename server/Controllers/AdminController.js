@@ -88,6 +88,43 @@ exports.getAdmin = async (req, res) => {
   }
 };
 
+
+// Update admin profile
+exports.updateAdmin = async (req, res) => {
+  const id = req.params.id;
+  const { adminPassword, adminPhoneNumber, adminSecretKey, adminEmail } =
+    req.body;
+
+  console.log("Admin updation called for ", id);
+
+  try {
+    const admin = await AdminModel.findById(`${id}`);
+    console.log(admin);
+
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+    if (adminPassword) {
+      admin.adminPassword = adminPassword;
+    }
+    if (adminPhoneNumber) {
+      admin.adminPhoneNumber = adminPhoneNumber;
+    }
+    if (adminSecretKey) {
+      admin.adminSecretKey = adminSecretKey;
+    }
+    if (adminEmail) {
+      admin.adminEmail = adminEmail;
+    }
+
+    const updatedAdmin = await admin.save();
+    console.log("Updated Admin =", updatedAdmin);
+    res.status(200).json(updatedAdmin);
+  } catch (error) {
+    res.status(500).json("Internal Server Error", error);
+  }
+};
+
 // For teachers
 //   Add New Teacher
 exports.addTeacher = async (req, res) => {
@@ -146,14 +183,8 @@ exports.getTeachers = async (req, res) => {
 //   Add new student
 exports.addStudent = async (req, res) => {
   try {
-    const {
-      stdName,
-      stdEmail,
-      stdPassword,
-      stdPhoneNumber,
-      regNo,
-      stdDept,
-    } = req.body;
+    const { stdName, stdEmail, stdPassword, stdPhoneNumber, regNo, stdDept } =
+      req.body;
 
     console.log("new Student request body = ", req.body);
     const existingStudent = await StudentModel.findOne({
@@ -180,7 +211,9 @@ exports.addStudent = async (req, res) => {
     res.status(201).json({ message: "Student added successfully" });
   } catch (error) {
     console.log("Error adding student:", error);
-    res.status(500).json({ error: "An error occurred while adding student",error });
+    res
+      .status(500)
+      .json({ error: "An error occurred while adding student", error });
   }
 };
 
