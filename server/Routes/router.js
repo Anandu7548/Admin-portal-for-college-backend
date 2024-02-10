@@ -27,7 +27,16 @@ router.post("/thrLogin", TeacherController.thrLogin);
 // Student Login
 router.post("/stdLogin", StudentController.stdLogin);
 
+// get all admin details
+router.get("/getAdmins",AdminContoller.getAdmins)
 
+// get all teacher details
+router.get("/getTeachers",TeacherController.getTeachers)
 
+// get all students details
+router.get("/getStudents",StudentController.getStudents)
+
+// get a particular admin details
+router.post("/getAdmin/:id",AdminContoller.getAdmin)
 
 module.exports = router;
