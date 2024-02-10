@@ -14,7 +14,7 @@ exports.adminLogin = async (req, res) => {
         res.status(401).json({ error: "Invalid admin credentials" });
         return;
       }
-      res.status(200).json({ message: "Admin login successful" });
+      res.status(200).json(admin);
     } catch (error) {
       console.error("Error during admin login:", error);
       res.status(500).json({ error: "An error occurred during admin login" });
@@ -115,3 +115,30 @@ exports.addStudent = async (req, res) => {
       res.status(500).json({ error: 'An error occurred while adding student' });
     }
   };
+
+  // Get all admins
+  exports.getAdmins = async(req,res)=>{
+    try{
+      const response = await AdminModel.find()
+      console.log(response);
+      res.status(200).json(response)
+      console.log("admin details fetched successfully");
+    }
+    catch(err){
+      res.status(404).json(err)
+    }
+  }
+
+  // get details of logined admin
+  exports.getAdmin = async(req,res)=>{
+    const _id = req.params.id
+    console.log(_id);
+    try{
+      const admin = await AdminModel.findOne({_id})
+    console.log(admin);
+    res.status(200).json(admin)
+    }
+    catch(err){
+      res.status(404).json("Admin Not Found")
+    }
+  }

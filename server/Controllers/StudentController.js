@@ -17,3 +17,17 @@ exports.stdLogin = async (req, res) => {
         res.status(500).json({ error: "An error occurred during the Student login" });
     }
 };
+
+
+  // Get all Students
+  exports.getStudents = async(req,res)=>{
+    try{
+      const response = await StudentModel.find()
+      console.log(response);
+      res.status(200).json(response)
+      console.log("Stidents details are fetched successfully");
+    }
+    catch(err){
+      res.status(404).json(err)
+    }
+  }
