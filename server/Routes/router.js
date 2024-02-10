@@ -18,12 +18,9 @@ router.post("/newTeacher",AdminContoller.addTeacher);
 router.post("/newStudent", AdminContoller.addStudent);
 
 
-
-
 // Teacher Routers
 // Teacher Login
 router.post("/thrLogin", TeacherController.thrLogin);
-
 
 
 // Student Routers
