@@ -135,6 +135,7 @@ exports.addTeacher = async (req, res) => {
       thrPassword,
       thrPhoneNumber,
       thrDept,
+      
       thrAadhar,
     } = req.body;
 

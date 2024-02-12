@@ -28,6 +28,12 @@ router.get("/getAdmin/:id",AdminContoller.getAdmin);
 router.put("/updateAdmin/:id", AdminContoller.updateAdmin);
 
 
+// Teacher Login
+// get a particular teacher details
+router.get("/getTeacher/:id",TeacherController.getTeacher);
+// update teacher
+router.put("/updateTeacher/:id",TeacherController.updateTeacher)
+
 
 // Teacher Routers
 // Teacher Login
