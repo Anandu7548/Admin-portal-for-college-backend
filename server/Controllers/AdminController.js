@@ -184,7 +184,7 @@ exports.getTeachers = async (req, res) => {
 //   Add new student
 exports.addStudent = async (req, res) => {
   try {
-    const { stdName, stdEmail, stdPassword, stdPhoneNumber, regNo, stdDept } =
+    const { stdName, stdEmail, stdPassword, stdPhoneNumber, regNo, stdDept, stdSem } =
       req.body;
 
     console.log("new Student request body = ", req.body);
@@ -204,6 +204,7 @@ exports.addStudent = async (req, res) => {
       stdPhoneNumber,
       regNo,
       stdDept,
+      stdSem,
     });
 
     // Save the new student to the database
