@@ -43,6 +43,8 @@ router.post("/thrLogin", TeacherController.thrLogin);
 // Student Routers
 // Student Login
 router.post("/stdLogin", StudentController.stdLogin);
+// delete student
+router.delete("/deleteStudent/:id",StudentController.deleteStudent)
 
 
 

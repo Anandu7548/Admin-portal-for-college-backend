@@ -19,3 +19,19 @@ exports.stdLogin = async (req, res) => {
 };
 
 
+exports.deleteStudent = async (req, res) => {
+    console.log("delete");
+    const id = req.params.id;
+
+    try {
+        const student = await StudentModel.findByIdAndDelete(id);
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+        res.status(200).json({ message: "Student deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting student:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
