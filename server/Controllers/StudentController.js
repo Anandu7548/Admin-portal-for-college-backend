@@ -11,7 +11,7 @@ exports.stdLogin = async (req, res) => {
             res.status(401).json({ error: "Invalid Student credentials" });
             return;
         }
-        res.status(200).json({ message: "Student login successful" });
+        res.status(200).json(student);
     } catch (error) {
         console.error("Error while Student login:", error);
         res.status(500).json({ error: "An error occurred during the Student login" });
@@ -19,6 +19,7 @@ exports.stdLogin = async (req, res) => {
 };
 
 
+// delete student
 exports.deleteStudent = async (req, res) => {
     console.log("delete");
     const id = req.params.id;
@@ -35,3 +36,61 @@ exports.deleteStudent = async (req, res) => {
     }
 };
 
+// get the details of a particular student
+
+exports.getStudent = async (req, res) => {
+    console.log("inside student");
+    const _id = req.params.id;
+    console.log(_id);
+    try {
+      const student = await StudentModel.findOne({ _id });
+      console.log(student);
+      res.status(200).json(student);
+    } catch (err) {
+      res.status(404).json("Student Not Found");
+    }
+  };
+
+  // Update student profile
+exports.updateStudent = async (req, res) => {
+  const id = req.params.id;
+  const { stdName, stdEmail, stdPassword, stdPhoneNumber,regNo,stdDept ,stdSem} =
+    req.body;
+
+  console.log("Student updation called for ", id);
+
+  try {
+    const student = await StudentModel.findById(`${id}`);
+    console.log(student);
+
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+    if (stdName) {
+      student.stdName = stdName;
+    }
+    if (stdEmail) {
+      student.stdEmail = stdEmail;
+    }
+    if (stdPassword) {
+      student.stdPassword = stdPassword;
+    }
+    if (stdPhoneNumber) {
+      student.stdPhoneNumber = stdPhoneNumber;
+    }
+    if (regNo) {
+        student.regNo = regNo;
+      }
+    if (stdDept) {
+        student.stdDept = stdDept;
+      }
+      if (stdSem) {
+        student.stdSem = stdSem;
+      }
+    const updatedStudent = await student.save();
+    console.log("Updated Admin =", updatedStudent);
+    res.status(200).json(updatedStudent);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};

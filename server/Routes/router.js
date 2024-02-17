@@ -45,7 +45,9 @@ router.post("/thrLogin", TeacherController.thrLogin);
 router.post("/stdLogin", StudentController.stdLogin);
 // delete student
 router.delete("/deleteStudent/:id",StudentController.deleteStudent)
-
-
+// get the details of a particular student
+router.get("/getStudent/:id",StudentController.getStudent)
+// update student details
+router.put("/updateStudent/:id",StudentController.updateStudent)
 
 module.exports = router;
