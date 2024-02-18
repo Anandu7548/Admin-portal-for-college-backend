@@ -31,10 +31,13 @@ const studentSchema = new mongoose.Schema({
     type:String,
     required:true
   },
-  certificates: {
-    type: [String], 
-    default: [] 
-  }
+  certificates: [
+    {
+        certificateName: String,
+        grade: String,
+        certificateUrl: String // Store the URL/path to the uploaded file
+    }
+]
 });
 
 const Students = mongoose.model("Student", studentSchema);

@@ -4,6 +4,7 @@ const router = express.Router();
 const AdminContoller = require("../Controllers/AdminController");
 const TeacherController = require("../Controllers/TeacherController");
 const StudentController = require("../Controllers/StudentController");
+const upload = require("../multerConfig/storageConfig");
 
 
 
@@ -49,5 +50,9 @@ router.delete("/deleteStudent/:id",StudentController.deleteStudent)
 router.get("/getStudent/:id",StudentController.getStudent)
 // update student details
 router.put("/updateStudent/:id",StudentController.updateStudent)
+// add certificates
+router.post("/addCertificate/:id",upload.single('file'),StudentController.addCertificates)
+// get certificate of a partiular student
+router.get("/getCertificate/:id",StudentController.getCertificates)
 
 module.exports = router;
