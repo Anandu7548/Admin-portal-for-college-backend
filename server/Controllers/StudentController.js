@@ -146,7 +146,7 @@ exports.getCertificates = async(req,res)=>{
  console.log(id);
  const student = await StudentModel.findById(id)
  try{
-   res.status(200).json(student)
+   res.status(200).json(student.certificates)
  }
  catch(err){
   res.status(404).json(err)

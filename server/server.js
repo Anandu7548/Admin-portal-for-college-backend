@@ -9,7 +9,7 @@ const server = express();
 
 const PORT = process.env.PORT || 5000;
 
-server.use("/uploads", express.static(path.join(__dirname, "uploads")));
+server.use("/uploads", express.static('./uploads'));
 
 server.use(cors());
 
