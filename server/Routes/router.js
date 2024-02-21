@@ -54,5 +54,7 @@ router.put("/updateStudent/:id",StudentController.updateStudent)
 router.post("/addCertificate/:id",upload.single('file'),StudentController.addCertificates)
 // get certificate of a partiular student
 router.get("/getCertificate/:id",StudentController.getCertificates)
+// calculate Activity Points
+router.get("/calculate/:id",StudentController.calculateActivityPoints)
 
 module.exports = router;

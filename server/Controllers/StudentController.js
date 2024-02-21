@@ -152,3 +152,57 @@ exports.getCertificates = async(req,res)=>{
   res.status(404).json(err)
  }
 }
+
+
+exports.calculateActivityPoints = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the student in the database
+    const student = await StudentModel.findById(id);
+
+    // If student is not found, return a 404 status code
+    if (!student) {
+      return res.status(404).json({ error: "Student not found" });
+    }
+    const count = student.certificates.length
+    console.log(count);
+
+    // Calculate activity points based on the grades stored in certificates
+    let  ActivityPoint = 0;
+    student.certificates.forEach(certificate => {
+      // Determine activity points for each grade (you can define your own mapping)
+      switch (certificate.grade.toUpperCase()) {
+        case 'A':
+          ActivityPoint  += 10;
+          break;
+        case 'B':
+          ActivityPoint += 9;
+          break;
+        case 'C':
+          ActivityPoint += 8;
+          break;
+        case 'D':
+          ActivityPoint += 7;
+          break;
+        default:
+          ActivityPoint += 0;
+          break;
+      }
+    });
+     let totalActivityPoints = ActivityPoint/count;
+     console.log(totalActivityPoints);
+
+    // Update student's activity points
+    student.ActivityPoints = totalActivityPoints;
+
+    // Save the updated student object to the database
+    await student.save();
+
+    // Respond with the updated student object
+    res.status(200).json(student);
+  } catch (error) {
+    console.error("Error calculating activity points:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
