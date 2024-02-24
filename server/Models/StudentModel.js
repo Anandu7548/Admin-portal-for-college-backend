@@ -38,7 +38,7 @@ const studentSchema = new mongoose.Schema({
     {
         certificateName: String,
         grade: String,
-        certificateUrl: String // Store the URL/path to the uploaded file
+        certificateUrl: String 
     }
 ]
 });

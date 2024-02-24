@@ -20,6 +20,7 @@ exports.stdLogin = async (req, res) => {
   }
 };
 
+
 // delete student
 exports.deleteStudent = async (req, res) => {
   console.log("delete");
@@ -104,32 +105,25 @@ exports.updateStudent = async (req, res) => {
 };
 
 /// Add certificate
-// Backend route handler for uploading certificates
 exports.addCertificates = async (req, res) => {
   try {
-    // Find the student in the database
     const student = await StudentModel.findById(req.params.id);
 
-    // If student is not found, return a 404 status code
     if (!student) {
       return res.status(404).json({ error: "Student not found" });
     }
     console.log(req.body);
-    // Extract grade, certificate name, and file from the request
     const { grade, certificateName } = req.body;
-    const certificateFile = req.file; // Assuming you're using multer for file uploads
+    const certificateFile = req.file; 
 
-    // Construct the certificate object
     const certificate = {
       grade: grade,
       certificateName: certificateName,
-      certificateUrl: certificateFile.path, // Assuming multer saves the file to the local filesystem
+      certificateUrl: certificateFile.path, 
     };
 
-    // Push the certificate object into the student's certificates array
     student.certificates.push(certificate);
 
-    // Save the updated student object
     await student.save();
 
     res.status(200).json({ message: "Certificate uploaded successfully" });
@@ -139,70 +133,61 @@ exports.addCertificates = async (req, res) => {
   }
 };
 
+
 // get certification details of a particular
 exports.getCertificates = async(req,res)=>{
-  // console.log(req.params);
+  console.log(req.params);
  const {id} = req.params
  console.log(id);
  const student = await StudentModel.findById(id)
  try{
    res.status(200).json(student.certificates)
+   console.log(student.certificates);
  }
  catch(err){
   res.status(404).json(err)
  }
 }
 
-
 exports.calculateActivityPoints = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Find the student in the database
     const student = await StudentModel.findById(id);
 
-    // If student is not found, return a 404 status code
     if (!student) {
       return res.status(404).json({ error: "Student not found" });
     }
-    const count = student.certificates.length
-    console.log(count);
 
-    // Calculate activity points based on the grades stored in certificates
-    let  ActivityPoint = 0;
+    let activityPoints = 0;
+
     student.certificates.forEach(certificate => {
-      // Determine activity points for each grade (you can define your own mapping)
       switch (certificate.grade.toUpperCase()) {
         case 'A':
-          ActivityPoint  += 10;
+          activityPoints += 10;
           break;
         case 'B':
-          ActivityPoint += 9;
+          activityPoints += 9;
           break;
         case 'C':
-          ActivityPoint += 8;
+          activityPoints += 8;
           break;
         case 'D':
-          ActivityPoint += 7;
+          activityPoints += 7;
           break;
         default:
-          ActivityPoint += 0;
           break;
       }
     });
-     let totalActivityPoints = ActivityPoint/count;
-     console.log(totalActivityPoints);
 
-    // Update student's activity points
-    student.ActivityPoints = totalActivityPoints;
+    student.ActivityPoints = activityPoints;
 
-    // Save the updated student object to the database
     await student.save();
 
-    // Respond with the updated student object
     res.status(200).json(student);
   } catch (error) {
     console.error("Error calculating activity points:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+

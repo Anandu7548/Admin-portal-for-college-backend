@@ -38,14 +38,12 @@ exports.addAdmin = async (req, res) => {
       adminSecretKey,
     } = req.body;
     console.log(req.body);
-    // Check if admin with the same email already exists
     const existingAdmin = await AdminModel.findOne({ adminEmail });
     if (existingAdmin) {
       return res
         .status(400)
         .json({ error: "Admin with this email already exists" });
     }
-    // Create a new admin instance
     const newAdmin = new AdminModel({
       adminUsername,
       adminPassword,
@@ -53,7 +51,6 @@ exports.addAdmin = async (req, res) => {
       adminPhoneNumber,
       adminSecretKey,
     });
-    // Save the new admin to the database
     await newAdmin.save();
     console.log(newAdmin);
     res.status(201).json({ message: "Admin added successfully" });
@@ -125,6 +122,7 @@ exports.updateAdmin = async (req, res) => {
   }
 };
 
+
 // For teachers
 //   Add New Teacher
 exports.addTeacher = async (req, res) => {
@@ -140,7 +138,6 @@ exports.addTeacher = async (req, res) => {
     } = req.body;
 
     console.log("Request body = ", req.body);
-    // Check if teacher with the same email already exists
     const existingTeacher = await TeacherModel.findOne({ thrEmail });
     if (existingTeacher) {
       return res
@@ -148,7 +145,6 @@ exports.addTeacher = async (req, res) => {
         .json({ error: "Teacher with this email already exists" });
     }
 
-    // Create a new teacher instance
     const newTeacher = new TeacherModel({
       thrUsername,
       thrEmail,
@@ -158,7 +154,6 @@ exports.addTeacher = async (req, res) => {
       thrAadhar,
     });
 
-    // Save the new teacher to the database
     await newTeacher.save();
 
     res.status(201).json({ message: "Teacher added successfully" });
@@ -207,7 +202,6 @@ exports.addStudent = async (req, res) => {
       stdSem,
     });
 
-    // Save the new student to the database
     await newStudent.save();
 
     res.status(201).json({ message: "Student added successfully" });
@@ -218,6 +212,7 @@ exports.addStudent = async (req, res) => {
       .json({ error: "An error occurred while adding student", error });
   }
 };
+
 
 // Get all students
 exports.getStudents = async (req, res) => {
