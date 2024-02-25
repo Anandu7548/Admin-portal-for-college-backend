@@ -191,3 +191,15 @@ exports.calculateActivityPoints = async (req, res) => {
   }
 };
 
+
+
+// Delete a student
+exports.deletStd = async (req, res) =>{
+  const {id} = req.params;
+  try {
+    const student = await StudentModel.findByIdAndDelete(id);
+    res.status(200).json(student);
+  } catch (error) {
+    console.log("error while deleting the student", error);
+  }
+}

@@ -75,4 +75,15 @@ exports.updateTeacher = async (req, res) => {
     }
   };
 
-  
+
+  // delete a teacher
+exports.deleteTeacher = async (req, res) =>{
+  const {id} = req.params;
+  console.log(id);
+  try {
+    const teacher = await TeacherModel.findByIdAndDelete(id);
+    res.status(200).json(teacher);
+  } catch (error) {
+    console.log("Error deleting the teacher", error);
+  }
+}

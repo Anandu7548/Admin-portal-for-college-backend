@@ -72,6 +72,18 @@ exports.getAdmins = async (req, res) => {
   }
 };
 
+
+// delete an admin
+exports.deleteAdmin = async (req, res) =>{
+  const {id} = req.params;
+  try {
+    const newAdmin = await AdminModel.findByIdAndDelete(id);
+  } catch (error) {
+    console.log("Error deleting the admin",error);
+  }
+}
+
+
 // get details of logined admin
 exports.getAdmin = async (req, res) => {
   const _id = req.params.id;

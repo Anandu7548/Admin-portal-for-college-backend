@@ -27,7 +27,8 @@ router.get("/getStudents",AdminContoller.getStudents);
 router.get("/getAdmin/:id",AdminContoller.getAdmin);
 // update the specific admin
 router.put("/updateAdmin/:id", AdminContoller.updateAdmin);
-
+// Router for deleting an admin 
+router.delete("/deleteAdmin/:id", AdminContoller.deleteAdmin);
 
 // Teacher Login
 router.post("/thrLogin", TeacherController.thrLogin);
@@ -35,6 +36,8 @@ router.post("/thrLogin", TeacherController.thrLogin);
 router.get("/getTeacher/:id",TeacherController.getTeacher);
 // update teacher
 router.put("/updateTeacher/:id",TeacherController.updateTeacher)
+// Delete a teacher
+router.delete("/deleteTeacher/:id", TeacherController.deleteTeacher);
 
 
 
@@ -55,5 +58,8 @@ router.post("/addCertificate/:id",upload.single('file'),StudentController.addCer
 router.get("/getCertificate/:id",StudentController.getCertificates)
 // calculate Activity Points
 router.get("/calculate/:id",StudentController.calculateActivityPoints)
+// Router for deleting a student
+router.delete("/deleteStudent/:id", StudentController.deletStd);
+
 
 module.exports = router;
