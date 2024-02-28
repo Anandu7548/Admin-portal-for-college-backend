@@ -1,6 +1,6 @@
 const StudentModel = require("../Models/StudentModel");
 
-// Teacher Login
+// Student Login
 exports.stdLogin = async (req, res) => {
   console.log("std login api called");
   const { stdEmail, stdPassword } = req.body;
@@ -21,25 +21,73 @@ exports.stdLogin = async (req, res) => {
 };
 
 
-// delete student
-exports.deleteStudent = async (req, res) => {
-  console.log("delete");
-  const id = req.params.id;
 
+//   Add new student
+exports.addStudent = async (req, res) => {
   try {
-    const student = await StudentModel.findByIdAndDelete(id);
-    if (!student) {
-      return res.status(404).json({ message: "Student not found" });
+    const { stdName, stdEmail, stdPassword, stdPhoneNumber, regNo, stdDept, stdSem } =
+      req.body;
+
+    console.log("new Student request body = ", req.body);
+    const existingStudent = await StudentModel.findOne({
+      $or: [{ stdEmail }, { regNo }],
+    });
+    if (existingStudent) {
+      return res.status(400).json({
+        error: "Student with this email or registration number already exists",
+      });
     }
-    res.status(200).json({ message: "Student deleted successfully" });
+    // Create a new student instance
+    const newStudent = new StudentModel({
+      stdName,
+      stdEmail,
+      stdPassword,
+      stdPhoneNumber,
+      regNo,
+      stdDept,
+      stdSem,
+    });
+
+    await newStudent.save();
+
+    res.status(201).json({ message: "Student added successfully" });
   } catch (error) {
-    console.error("Error deleting student:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.log("Error adding student:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while adding student", error });
   }
 };
 
-// get the details of a particular student
 
+// Get all students
+exports.getStudents = async (req, res) => {
+  try {
+    const students = await StudentModel.find();
+    console.log(students);
+    res.status(200).json(students);
+    console.log("Students Details fetched Succesfully");
+  } catch (err) {
+    res.status(404).json(err);
+  }
+};
+
+
+// Delete a student
+exports.deletStd = async (req, res) =>{
+  const {id} = req.params;
+  try {
+    const student = await StudentModel.findByIdAndDelete(id);
+    res.status(200).json(student);
+  } catch (error) {
+    console.log("error while deleting the student", error);
+  }
+}
+
+
+
+
+// get the details of a particular student
 exports.getStudent = async (req, res) => {
   console.log("inside student");
   const _id = req.params.id;
@@ -104,7 +152,26 @@ exports.updateStudent = async (req, res) => {
   }
 };
 
-/// Add certificate
+
+
+
+// get certification details of a particular
+exports.getCertificates = async(req,res)=>{
+  console.log(req.params);
+ const {id} = req.params
+ console.log(id);
+ const student = await StudentModel.findById(id)
+ try{
+   res.status(200).json(student.certificates)
+   console.log(student.certificates);
+ }
+ catch(err){
+  res.status(404).json(err)
+ }
+}
+
+
+// Add certificate
 exports.addCertificates = async (req, res) => {
   try {
     const student = await StudentModel.findById(req.params.id);
@@ -133,22 +200,7 @@ exports.addCertificates = async (req, res) => {
   }
 };
 
-
-// get certification details of a particular
-exports.getCertificates = async(req,res)=>{
-  console.log(req.params);
- const {id} = req.params
- console.log(id);
- const student = await StudentModel.findById(id)
- try{
-   res.status(200).json(student.certificates)
-   console.log(student.certificates);
- }
- catch(err){
-  res.status(404).json(err)
- }
-}
-
+// Calculate activity points
 exports.calculateActivityPoints = async (req, res) => {
   try {
     const { id } = req.params;
@@ -193,13 +245,3 @@ exports.calculateActivityPoints = async (req, res) => {
 
 
 
-// Delete a student
-exports.deletStd = async (req, res) =>{
-  const {id} = req.params;
-  try {
-    const student = await StudentModel.findByIdAndDelete(id);
-    res.status(200).json(student);
-  } catch (error) {
-    console.log("error while deleting the student", error);
-  }
-}

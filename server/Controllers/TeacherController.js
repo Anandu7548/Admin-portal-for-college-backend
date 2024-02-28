@@ -87,3 +87,54 @@ exports.deleteTeacher = async (req, res) =>{
     console.log("Error deleting the teacher", error);
   }
 }
+
+//   Add New Teacher
+exports.addTeacher = async (req, res) => {
+  try {
+    const {
+      thrUsername,
+      thrEmail,
+      thrPassword,
+      thrPhoneNumber,
+      thrDept,
+      
+      thrAadhar,
+    } = req.body;
+
+    console.log("Request body = ", req.body);
+    const existingTeacher = await TeacherModel.findOne({ thrEmail });
+    if (existingTeacher) {
+      return res
+        .status(400)
+        .json({ error: "Teacher with this email already exists" });
+    }
+
+    const newTeacher = new TeacherModel({
+      thrUsername,
+      thrEmail,
+      thrPassword,
+      thrPhoneNumber,
+      thrDept,
+      thrAadhar,
+    });
+
+    await newTeacher.save();
+
+    res.status(201).json({ message: "Teacher added successfully" });
+  } catch (error) {
+    console.error("Error adding teacher:", error);
+    res.status(500).json({ error: "An error occurred while adding teacher" });
+  }
+};
+
+// Get all teachers
+exports.getTeachers = async (req, res) => {
+  try {
+    const response = await TeacherModel.find();
+    console.log(response);
+    res.status(200).json(response);
+    console.log("Teachers details are fetched successfully");
+  } catch (err) {
+    res.status(404).json(err);
+  }
+};

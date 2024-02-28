@@ -13,16 +13,10 @@ const upload = require("../multerConfig/storageConfig");
 router.post("/admLogin", AdminContoller.adminLogin);
 // Add new Admin
 router.post("/newadmin", AdminContoller.addAdmin);
-// Add new Teacher
-router.post("/newTeacher",AdminContoller.addTeacher);
-// Add new Student
-router.post("/newStudent", AdminContoller.addStudent);
+
 // get all admin details
 router.get("/getAdmins",AdminContoller.getAdmins);
-// get all teacher details
-router.get("/getTeachers",AdminContoller.getTeachers);
-// get all students details
-router.get("/getStudents",AdminContoller.getStudents);
+
 // get a particular admin details
 router.get("/getAdmin/:id",AdminContoller.getAdmin);
 // update the specific admin
@@ -30,6 +24,11 @@ router.put("/updateAdmin/:id", AdminContoller.updateAdmin);
 // Router for deleting an admin 
 router.delete("/deleteAdmin/:id", AdminContoller.deleteAdmin);
 
+
+
+
+// Add new Teacher
+router.post("/newTeacher",TeacherController.addTeacher);
 // Teacher Login
 router.post("/thrLogin", TeacherController.thrLogin);
 // get a particular teacher details
@@ -38,16 +37,20 @@ router.get("/getTeacher/:id",TeacherController.getTeacher);
 router.put("/updateTeacher/:id",TeacherController.updateTeacher)
 // Delete a teacher
 router.delete("/deleteTeacher/:id", TeacherController.deleteTeacher);
+// get all teacher details
+router.get("/getTeachers",TeacherController.getTeachers);
 
 
 
 
 
 // Student Routers
+// Add new Student
+router.post("/newStudent", StudentController.addStudent);
 // Student Login
 router.post("/stdLogin", StudentController.stdLogin);
 // delete student
-router.delete("/deleteStudent/:id",StudentController.deleteStudent)
+router.delete("/deleteStudent/:id",StudentController.deletStd)
 // get the details of a particular student
 router.get("/getStudent/:id",StudentController.getStudent)
 // update student details
@@ -58,8 +61,7 @@ router.post("/addCertificate/:id",upload.single('file'),StudentController.addCer
 router.get("/getCertificate/:id",StudentController.getCertificates)
 // calculate Activity Points
 router.get("/calculate/:id",StudentController.calculateActivityPoints)
-// Router for deleting a student
-router.delete("/deleteStudent/:id", StudentController.deletStd);
-
+// get all students details
+router.get("/getStudents",StudentController.getStudents);
 
 module.exports = router;
