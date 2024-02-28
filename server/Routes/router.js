@@ -60,7 +60,7 @@ router.post("/addCertificate/:id",upload.single('file'),StudentController.addCer
 // get certificate of a partiular student
 router.get("/getCertificate/:id",StudentController.getCertificates)
 // calculate Activity Points
-router.get("/calculate/:id",StudentController.calculateActivityPoints)
+// router.get("/calculate/:id",StudentController.calculateActivityPoints)
 // get all students details
 router.get("/getStudents",StudentController.getStudents);
 

@@ -171,7 +171,7 @@ exports.getCertificates = async(req,res)=>{
 }
 
 
-// Add certificate
+// Add certificate and calculate activity points
 exports.addCertificates = async (req, res) => {
   try {
     const student = await StudentModel.findById(req.params.id);
@@ -179,7 +179,7 @@ exports.addCertificates = async (req, res) => {
     if (!student) {
       return res.status(404).json({ error: "Student not found" });
     }
-    console.log(req.body);
+
     const { grade, certificateName } = req.body;
     const certificateFile = req.file; 
 
@@ -192,24 +192,6 @@ exports.addCertificates = async (req, res) => {
     student.certificates.push(certificate);
 
     await student.save();
-
-    res.status(200).json({ message: "Certificate uploaded successfully" });
-  } catch (error) {
-    console.error("Error uploading certificate:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-// Calculate activity points
-exports.calculateActivityPoints = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const student = await StudentModel.findById(id);
-
-    if (!student) {
-      return res.status(404).json({ error: "Student not found" });
-    }
 
     let activityPoints = 0;
 
@@ -236,12 +218,10 @@ exports.calculateActivityPoints = async (req, res) => {
 
     await student.save();
 
-    res.status(200).json(student);
+    res.status(200).json({ message: "Certificate uploaded successfully" });
   } catch (error) {
-    console.error("Error calculating activity points:", error);
+    console.error("Error uploading certificate:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-
 

@@ -18,7 +18,7 @@ server.use(express.json());
 server.use(router);
 
 server.listen(PORT, () => {
-  console.log(`Peak Alpha server started at ${PORT}`);
+  console.log(`Admin portal server started at ${PORT}`);
 });
 
 server.get("/", (req, res) => {
